@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yigang.dao.RepairDao">
+
+	<resultMap type="com.yigang.entity.RepairSearch" id="Repair">
+		<id property="repairId" column="repairId" />
+		<result property="repairManId" column="repairManId" />
+		<result property="repairStatus" column="repairStatus" />
+		<result property="roomNum" column="roomNum" />
+		<result property="createPerId" column="createPerId" />
+		<result property="createTime" column="createTime" />
+		<result property="description" column="description" />
+	</resultMap>
+
+
+	<select id="getAllRepairList" resultMap="Repair" parameterType="com.yigang.entity.UserSearch">
+		select * from repair
+		<where>
+		1=1
+			<if test="null != createTimeStart and null != createTimeEnd and '' != createTimeStart and '' != createTimeEnd">
+				and createTime between #{createTimeStart} and #{createTimeEnd}
+			</if>
+			<if test="'' != createTimeStart and '' == createTimeEnd">
+				and createTime between #{createTimeStart} and curtime()
+			</if>
+			<if test="'' == createTimeStart and '' != createTimeEnd">
+				and createTime between '1900-01-01 00:00:00' and #{createTimeEnd}
+			</if>
+		</where>
+		
+	</select>
+
+</mapper>
