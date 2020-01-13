@@ -11,25 +11,35 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="roomNum" column="roomNum" />
 		<result property="createPerId" column="createPerId" />
 		<result property="createTime" column="createTime" />
+		<result property="reviewName" column="reviewName" />
 		<result property="description" column="description" />
 	</resultMap>
 
 
-	<select id="getAllRepairList" resultMap="Repair" parameterType="com.yigang.entity.UserSearch">
+	<select id="getAllRepairList" resultMap="Repair" parameterType="com.yigang.entity.RepairSearch">
 		select * from repair
-		<where>
-		1=1
-			<if test="null != createTimeStart and null != createTimeEnd and '' != createTimeStart and '' != createTimeEnd">
-				and createTime between #{createTimeStart} and #{createTimeEnd}
-			</if>
-			<if test="'' != createTimeStart and '' == createTimeEnd">
-				and createTime between #{createTimeStart} and curtime()
-			</if>
-			<if test="'' == createTimeStart and '' != createTimeEnd">
-				and createTime between '1900-01-01 00:00:00' and #{createTimeEnd}
-			</if>
-		</where>
-		
 	</select>
-
+	<select id="getRepairById" resultMap="Repair" parameterType="java.lang.String">
+		select * from repair where repairId = #{repairId}
+	</select>
+	<select id="getWaitRepairList" resultMap="Repair" parameterType="com.yigang.entity.RepairSearch">
+		select * from repair where repairStatus = #{repairStatus}
+	</select>
+	<insert id="insRepair" parameterType="com.yigang.entity.RepairSearch">
+		insert into repair (repairManId,repairStatus,roomNum,createPerId,createTime,description)
+		values(#{repairManId},#{repairStatus},#{roomNum},#{createPerId},#{createTime},#{description})
+	</insert>
+	<update id="updateReview"
+			parameterType="com.yigang.entity.RepairSearch">
+		update repair
+		<set>
+			<if test="repairStatus != null">
+				repairStatus = #{repairStatus},
+			</if>
+			<if test="reviewName != null">
+				reviewName = #{reviewName},
+			</if>
+		</set>
+		where repairId = #{repairId}
+	</update>
 </mapper>

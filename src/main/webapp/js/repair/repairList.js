@@ -63,27 +63,69 @@
           ,{field:'repairStatus', title: '报修单状态', align: 'center' ,width:110}
           ,{field:'roomNum', title: '宿舍号' , align: 'center',width:80}
           ,{field:'createTime', title: '创建时间', templet : '<div>{{ formatTime(d.createTime,"yyyy-MM-dd hh:mm:ss")}}</div>',width:160, align: 'center'}
+          ,{field:'reviewName', title: '审核人姓名' , align: 'center',width:110}
           ,{field:'description', title: '描述', align: 'center' }
-          , {field: 'right', title: '操作', align: 'center', toolbar: "#barDemo",width:150}
 	    ]]
 			,page: true // 开启分页
 			,loading:true
 			,where: {timestamp: (new Date()).valueOf()}
 	  });
+	table.render({
+		id:'waitRepairList'
+		,elem: '#waitRepairList'
+		,url: ctx+'/repair/getWaitRepairList'// 数据接口
+		,limit:10// 每页默认数
+		,limits:[10,20,30,40]
+		,cols: [[ // 表头
+			{field:'repairId', title: '报修单号', align: 'center',width:110}
+			,{field:'createPerId', title: '创建人' , align: 'center',width:110}
+			,{field:'repairManId', title: '修理人' , align: 'center',width:110}
+			,{field:'repairStatus', title: '报修单状态', align: 'center' ,width:110}
+			,{field:'roomNum', title: '宿舍号' , align: 'center',width:80}
+			,{field:'reviewName', title: '审核人姓名' , align: 'center',width:110}
+			,{field:'createTime', title: '创建时间', templet : '<div>{{ formatTime(d.createTime,"yyyy-MM-dd hh:mm:ss")}}</div>',width:160, align: 'center'}
+			,{field:'description', title: '描述', align: 'center' }
+			, {field: 'right', title: '操作', align: 'center', toolbar: "#barDemo",width:150}
+		]]
+		,page: true // 开启分页
+		,loading:true
+		,where: {timestamp: (new Date()).valueOf()}
+	});
+	table.render({
+		id:'waitRepairListTwo'
+		,elem: '#waitRepairListTwo'
+		,url: ctx+'/repair/getWaitRepairListTwo'// 数据接口
+		,limit:10// 每页默认数
+		,limits:[10,20,30,40]
+		,cols: [[ // 表头
+			{field:'repairId', title: '报修单号', align: 'center',width:110}
+			,{field:'createPerId', title: '创建人' , align: 'center',width:110}
+			,{field:'repairManId', title: '修理人' , align: 'center',width:110}
+			,{field:'repairStatus', title: '报修单状态', align: 'center' ,width:110}
+			,{field:'roomNum', title: '宿舍号' , align: 'center',width:80}
+			,{field:'reviewName', title: '审核人姓名' , align: 'center',width:110}
+			,{field:'createTime', title: '创建时间', templet : '<div>{{ formatTime(d.createTime,"yyyy-MM-dd hh:mm:ss")}}</div>',width:160, align: 'center'}
+			,{field:'description', title: '描述', align: 'center' }
+			, {field: 'right', title: '操作', align: 'center', toolbar: "#barDemo",width:150}
+		]]
+		,page: true // 开启分页
+		,loading:true
+		,where: {timestamp: (new Date()).valueOf()}
+	});
 
 																																																																																																								
-	table.on('tool(userList)', function (obj) {
+	table.on('tool(waitRepairList)', function (obj) {
 	    var data = obj.data;
-	    if (obj.event === 'delete') {
-	        layer.confirm('确定要删除 '+data.username+' 么？', function (index) {
-	        	$.ajax({
-					url : ctx + '/user/deleteUserById',
+	    if (obj.event === 'review') {
+			layer.confirm('确定要审核报修单号为 '+data.repairId+' 么？', function (index) {
+				$.ajax({
+					url : ctx + '/repair/reviewByTea',
 					type : "POST",
-					data: {"id": data.id},
+					data: {"repairId": data.repairId},
 					success : function(d) {
 						if (d.code == 0) {
-							layer.msg("删除成功！",{icon: 1});
-							obj.del();
+							layer.msg("审核成功！",{icon: 1});
+							location.reload();
 						} else {
 							layer.msg("权限不足，删除失败！", {
 								icon : 5
@@ -95,20 +137,37 @@
 					}
 				})
 				layer.close(index);
-	        });
-	    } else if (obj.event === 'edit') {
-	    	var editIndex = layer.open({
-				type : 2,
-				title : "编辑用户",
-				area : [ '450px', '600px' ],
-				content : ctx + "/user/editUser/" + data.id,
-				success : function(layero, index) {
-
-				}
-	    	});
+			});
 	    }	
 	});
-	
+
+	table.on('tool(waitRepairListTwo)', function (obj) {
+		var data = obj.data;
+		if (obj.event === 'reviewTwo') {
+			layer.confirm('确定要审核报修单号为 '+data.repairId+' 么？', function (index) {
+				$.ajax({
+					url : ctx + '/repair/reviewByDean',
+					type : "POST",
+					data: {"repairId": data.repairId},
+					success : function(d) {
+						if (d.code == 0) {
+							layer.msg("审核成功！",{icon: 1});
+							location.reload();
+						} else {
+							layer.msg("权限不足，删除失败！", {
+								icon : 5
+							});
+						}
+					},
+					error:function(){
+						layer.msg("删除失败！网络错误！",{icon: 5});
+					}
+				})
+				layer.close(index);
+			});
+		}
+	});
+
 	$(".search_btn").click(function() {
 		var type = $(this).data('type');
 		active[type] ? active[type].call(this) : '';
@@ -119,7 +178,7 @@
 			title : "添加报修单",
 			type : 2,
 			area : [ '800px', '550px' ],
-			content : ctx + "/user/addUser",
+			content : ctx + "/repair/addRepair",
 			success : function(layero, index) {
 
 			}

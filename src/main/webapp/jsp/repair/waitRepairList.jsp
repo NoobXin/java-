@@ -14,24 +14,12 @@
 </script>
 </head>
 <body class="childrenBody">
-	<blockquote class="layui-elem-quote news_search">
-		<form class="layui-form">
-			<div style="margin-top: 1%">
-				<div class="layui-inline" style="margin-left: 10px">
-					<a class="layui-btn layui-btn-normal userAdd_btn">申请报修</a>
-				</div>
-			</div>
-		</form>
-	</blockquote>
 	<div class="layui-form">
-		<table id="repairList" lay-filter="repairList"></table>
+		<table id="waitRepairList" lay-filter="waitRepairList"></table>
 	</div>
 	<script type="text/html" id="barDemo">
-		<a class="layui-btn layui-btn-sm" lay-event="edit">
+		<a class="layui-btn layui-btn-sm" lay-event="review">
             <i class="layui-icon">&#xe642;</i>
-        </a>
-        <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delete">
-            <i class="layui-icon">&#xe640;</i>
         </a>
     </script>
 	<script type="text/javascript" src="${ctx }/layui/layui.js"></script>

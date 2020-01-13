@@ -7,16 +7,24 @@ import java.util.Date;
 public class RepairSearch {
 
     private int repairId;
-    private int repairManId;
-    private int repairStatus;
+    private String repairManId;
+    private String repairStatus;
     private String roomNum;
-    private int createPerId;
+    private String createPerId;
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createTime;
 	private String description;
 	private String createTimeStart;
 	private String createTimeEnd;
+	private String reviewName;
 
+	public String getReviewName() {
+		return reviewName;
+	}
+
+	public void setReviewName(String reviewName) {
+		this.reviewName = reviewName;
+	}
 
 	public String getCreateTimeStart() {
 		return createTimeStart;
@@ -42,19 +50,11 @@ public class RepairSearch {
 		this.repairId = repairId;
 	}
 
-	public int getRepairManId() {
-		return repairManId;
-	}
-
-	public void setRepairManId(int repairManId) {
-		this.repairManId = repairManId;
-	}
-
-	public int getRepairStatus() {
+	public String getRepairStatus() {
 		return repairStatus;
 	}
 
-	public void setRepairStatus(int repairStatus) {
+	public void setRepairStatus(String repairStatus) {
 		this.repairStatus = repairStatus;
 	}
 
@@ -66,11 +66,19 @@ public class RepairSearch {
 		this.roomNum = roomNum;
 	}
 
-	public int getCreatePerId() {
+	public String getRepairManId() {
+		return repairManId;
+	}
+
+	public void setRepairManId(String repairManId) {
+		this.repairManId = repairManId;
+	}
+
+	public String getCreatePerId() {
 		return createPerId;
 	}
 
-	public void setCreatePerId(int createPerId) {
+	public void setCreatePerId(String createPerId) {
 		this.createPerId = createPerId;
 	}
 
