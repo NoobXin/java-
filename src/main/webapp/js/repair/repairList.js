@@ -65,6 +65,7 @@
           ,{field:'createTime', title: '创建时间', templet : '<div>{{ formatTime(d.createTime,"yyyy-MM-dd hh:mm:ss")}}</div>',width:160, align: 'center'}
           ,{field:'reviewName', title: '审核人姓名' , align: 'center',width:110}
           ,{field:'description', title: '描述', align: 'center' }
+          , {field: 'right', title: '操作', align: 'center', toolbar: "#barDemo",width:150}
 	    ]]
 			,page: true // 开启分页
 			,loading:true
@@ -112,7 +113,17 @@
 		,loading:true
 		,where: {timestamp: (new Date()).valueOf()}
 	});
-
+	table.on('tool(repairList)', function (obj) {
+		var data = obj.data;
+		if (obj.event === 'edit') {
+			layer.open({
+				type: 2,
+				title:"分配修理任务",
+				area: ['450px', '380px'],
+				content:ctx+"/repair/dealRepair?repairId="+data.repairId,
+			});
+		}
+	});
 																																																																																																								
 	table.on('tool(waitRepairList)', function (obj) {
 	    var data = obj.data;
@@ -167,6 +178,36 @@
 			});
 		}
 	});
+
+	form.on("submit(dealMan)",function(data){
+		var repairStatus = $("#repairStatus").val();
+		if ("待分配处理"!=repairStatus){
+			layer.msg("请先审核该报修单!");
+			return  false;
+		}
+		var index = top.layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
+		setTimeout(function(){
+			$.ajax({
+				type: "POST",
+				async:false,
+				url: ctx+"/repair/updateDealRepair",
+				data:$("#arf").serialize(),
+				success:function(data){
+					top.layer.close(index);
+					if(data.code!=0){
+						top.layer.msg(data.msg);
+					}else {
+						top.layer.msg("修改成功！");
+					}
+				}
+			});
+			layer.closeAll("iframe");
+			//刷新父页面
+			parent.location.reload();
+		},2000);
+		return false;
+	})
+
 
 	$(".search_btn").click(function() {
 		var type = $(this).data('type');

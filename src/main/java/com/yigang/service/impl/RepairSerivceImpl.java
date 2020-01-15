@@ -71,4 +71,9 @@ public class RepairSerivceImpl implements RepairSerivce {
         resultUtil.setData(pageInfo.getList());
         return resultUtil;
     }
+
+    @Override
+    public void updateDealRepair(RepairSearch info) {
+        repairDao.updateDealRepair(info);
+    }
 }

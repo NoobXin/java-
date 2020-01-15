@@ -15,4 +15,6 @@ public interface RepairSerivce {
     void updateReview(RepairSearch info);
 
     ResultUtil getWaitRepairListTwo(Integer page, Integer limit, RepairSearch search);
+
+    void updateDealRepair(RepairSearch info);
 }

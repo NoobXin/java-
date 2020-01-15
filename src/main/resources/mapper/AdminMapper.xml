@@ -77,4 +77,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from admin 
 		where id = #{id}
 	</delete>
+
+	<select id="getAdminByNickname" resultMap="Admin">
+		select * from admin
+		where nickname = #{nickname}
+	</select>
 </mapper>

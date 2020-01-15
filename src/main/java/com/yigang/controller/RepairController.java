@@ -4,11 +4,14 @@ import com.yigang.entity.Admin;
 import com.yigang.entity.RepairSearch;
 import com.yigang.entity.User;
 import com.yigang.entity.UserSearch;
+import com.yigang.service.AdminService;
 import com.yigang.service.RepairSerivce;
 import com.yigang.service.UserService;
+import com.yigang.utils.MD5Utils;
 import com.yigang.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,6 +27,9 @@ public class RepairController {
 	@Autowired
 	private RepairSerivce repairSerivce;
 
+	@Autowired
+	private AdminService adminService;
+
 
 	@RequestMapping("repairList")
 	public String repairList() {
@@ -38,6 +44,13 @@ public class RepairController {
 	@RequestMapping("waitRepairListTwo")
 	public String waitRepairListTwo() {
 		return "jsp/repair/waitRepairListTwo";
+	}
+
+	@RequestMapping("dealRepair")
+	public String dealRepair(Model model,String repairId) {
+		RepairSearch info = repairSerivce.getRepairById(repairId);
+		model.addAttribute("info", info);
+		return "jsp/repair/dealRepair";
 	}
 
 	/**
@@ -128,5 +141,19 @@ public class RepairController {
 		info.setRepairStatus("待分配处理");
 		repairSerivce.updateReview(info);
 		return ResultUtil.ok();
+	}
+	/*
+	 * 分配修理任务
+	 */
+	@RequestMapping("/updateDealRepair")
+	@ResponseBody
+	public ResultUtil updateDealRepair(RepairSearch info) {
+		Admin admin = adminService.getAdminByNickname(info.getRepairManId());
+		if (admin == null) {
+			return new ResultUtil(501, "请输出正确得修理人姓名！");
+		}
+		info.setRepairStatus("处理中");
+		repairSerivce.updateDealRepair(info);
+		return new ResultUtil(0);
 	}
 }

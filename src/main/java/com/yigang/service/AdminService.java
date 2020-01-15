@@ -69,4 +69,6 @@ public interface AdminService {
 	List<Menu> getMenusByParentId(Long menuId);
 
 	void delMenuById(Long menuId);
+
+    Admin getAdminByNickname(String repairManId);
 }

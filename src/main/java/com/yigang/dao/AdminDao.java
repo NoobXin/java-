@@ -33,4 +33,5 @@ public interface AdminDao {
 
 	void insAdminLog(@Param("adminUsername")String username, @Param("loginIp")String loginIp, @Param("loginTime")Date loginTime);
 
+    Admin getAdminByNickname(@Param("nickname")String repairManId);
 }

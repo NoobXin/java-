@@ -15,4 +15,6 @@ public interface RepairDao {
     RepairSearch getRepairById(@Param("repairId")String repairId);
 
     int updateReview(RepairSearch info);
+
+    void updateDealRepair(RepairSearch info);
 }

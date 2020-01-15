@@ -289,4 +289,9 @@ public class AdminServiceImpl implements AdminService {
 		roleMenuDao.deleteMenuByMenuId(menuId);
 	}
 
+	@Override
+	public Admin getAdminByNickname(String repairManId) {
+		return adminDao.getAdminByNickname(repairManId);
+	}
+
 }

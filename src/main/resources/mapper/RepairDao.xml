@@ -42,4 +42,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</set>
 		where repairId = #{repairId}
 	</update>
+	<update id="updateDealRepair"
+			parameterType="com.yigang.entity.RepairSearch">
+		update repair
+		<set>
+			<if test="repairStatus != null">
+				repairStatus = #{repairStatus},
+			</if>
+			<if test="repairManId != null">
+				repairManId = #{repairManId},
+			</if>
+			<if test="description != null">
+				description = #{description},
+			</if>
+		</set>
+		where repairId = #{repairId}
+	</update>
 </mapper>
