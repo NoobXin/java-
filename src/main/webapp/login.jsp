@@ -14,7 +14,7 @@
 </head>
 <body background="./image/back_03.jpg">
 	<div class="login-main">
-		<header class="layui-elip">宿舍报修系统</header>
+		<header style="font-family:Arial;font-style:normal;">宿舍报修系统</header>
 		<form class="layui-form" lay-filter="login">
 			<div class="layui-input-inline">
 				<input id="username" type="text" placeholder="用户名" class="layui-input">

@@ -7,6 +7,7 @@ import com.yigang.entity.UserSearch;
 import com.yigang.service.AdminService;
 import com.yigang.service.RepairSerivce;
 import com.yigang.service.UserService;
+import com.yigang.utils.EmailPost;
 import com.yigang.utils.MD5Utils;
 import com.yigang.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -147,11 +148,13 @@ public class RepairController {
 	 */
 	@RequestMapping("/updateDealRepair")
 	@ResponseBody
-	public ResultUtil updateDealRepair(RepairSearch info) {
+	public ResultUtil updateDealRepair(RepairSearch info) throws Exception {
 		Admin admin = adminService.getAdminByNickname(info.getRepairManId());
 		if (admin == null) {
 			return new ResultUtil(501, "请输出正确得修理人姓名！");
 		}
+		//发送邮件
+		EmailPost.postMail(admin.getEmail(),info.getDescription());
 		info.setRepairStatus("处理中");
 		repairSerivce.updateDealRepair(info);
 		return new ResultUtil(0);
