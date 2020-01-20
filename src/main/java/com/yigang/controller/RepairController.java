@@ -192,4 +192,14 @@ public class RepairController {
 		repairSerivce.updateDealRepair(info);
 		return new ResultUtil(0);
 	}
+
+	/*
+	 * 评价修理任务
+	 */
+	@RequestMapping("assessRepair")
+	public String assessRepair(Model model,String repairId) {
+		RepairSearch info = repairSerivce.getRepairById(repairId);
+		model.addAttribute("info", info);
+		return "jsp/repair/assessRepair";
+	}
 }

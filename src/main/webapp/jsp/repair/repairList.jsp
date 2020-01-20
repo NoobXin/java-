@@ -30,6 +30,9 @@
 		<a class="layui-btn layui-btn-sm" lay-event="edit">
             <i class="layui-icon">&#xe642;</i>
         </a>
+		<a class="layui-btn layui-btn-sm" lay-event="assess">
+			<i class="layui-icon">&#xe606;</i>
+		</a>
     </script>
 	<script type="text/javascript" src="${ctx }/layui/layui.js"></script>
 	<script type="text/javascript" src="${ctx }/js/repair/repairList.js"></script>

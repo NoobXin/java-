@@ -145,6 +145,19 @@
 				content:ctx+"/repair/dealRepair?repairId="+data.repairId,
 			});
 		}
+		if (obj.event === 'assess') {
+			var repairStatus = data.repairStatus;
+			if ("已处理"!=repairStatus){
+				layer.msg("请先处理该报修单!");
+				return  false;
+			}
+			layer.open({
+				type: 2,
+				title:"评价修理任务",
+				area: ['450px', '380px'],
+				content:ctx+"/repair/assessRepair?repairId="+data.repairId,
+			});
+		}
 	});
 																																																																																																								
 	table.on('tool(waitRepairList)', function (obj) {
