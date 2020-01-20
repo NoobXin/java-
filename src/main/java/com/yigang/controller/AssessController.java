@@ -1,9 +1,10 @@
 package com.yigang.controller;
 
-import com.yigang.entity.User;
-import com.yigang.entity.UserSearch;
+import com.yigang.entity.*;
 import com.yigang.service.AssService;
+import com.yigang.service.RepairSerivce;
 import com.yigang.service.UserService;
+import com.yigang.utils.EmailPost;
 import com.yigang.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,50 +14,60 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
+import java.util.Date;
 
 @Controller
 @RequestMapping("/ass")
 public class AssessController {
 
 	@Autowired
-	private UserService userService;
+	private RepairSerivce repairSerivce;
+
 
     @Autowired
 	private AssService assService;
 
-	@RequestMapping("getAllUserList")
-	@ResponseBody
-	public ResultUtil getAllUserList(Integer page, Integer limit,UserSearch search) {
-		return userService.getAllUserList(page, limit,search);
-	}
-	
-	@RequestMapping("userList")
-	public String userList() {
-		return "jsp/user/userList";
+
+	@RequestMapping("assList")
+	public String repairList() {
+		return "jsp/ass/assList";
 	}
 
-	
-	@RequestMapping("deleteUserById")
+	/**
+	 * 全部信息
+	 * @param page
+	 * @param limit
+	 * @param search
+	 * @return
+	 */
+	@RequestMapping("getAssList")
 	@ResponseBody
-	public ResultUtil deleteUserById(int id) {
-		return userService.deleteUserById(id);
+	public ResultUtil getAssList(Integer page, Integer limit, AssSearch search) {
+		return assService.getAssList(page, limit,search);
+	}
+	/*
+	 * 评价修理任务
+	 */
+	@RequestMapping("/dealAss")
+	@ResponseBody
+	public ResultUtil dealAss(AssSearch info)  {
+		int repairId = info.getRepairId();
+		RepairSearch repairSearch = repairSerivce.getRepairById(Integer.toString(repairId));
+		info.setCreatePerId(repairSearch.getCreatePerId());
+		info.setDescription(repairSearch.getDescription());
+		info.setCreateTime(new Date());
+		info.setRepairManId(repairSearch.getRepairManId());
+		assService.insert(info);
+		return new ResultUtil(0);
 	}
 
-	
-	@RequestMapping("insertUser")
+	/*
+	 * 通过Id删除管理员
+	 */
+	@RequestMapping("/delete")
 	@ResponseBody
-	public ResultUtil insUser(User user){
-		//防止浏览器提交
-		User user1 = userService.selUserByUsername(user.getUsername());
-		if(null != user1){
-			return new ResultUtil(500,"用户名已存在，请重新填写！");
-		}
-		try {
-			userService.insertUser(user);
-			return ResultUtil.ok();
-		} catch (Exception e) {
-			return new ResultUtil(502,"网络错误，请检查网络！");
-		}
+	public ResultUtil delete(int id) {
+		assService.delete(id);
+		return ResultUtil.ok();
 	}
-
 }

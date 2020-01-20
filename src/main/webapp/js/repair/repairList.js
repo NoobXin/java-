@@ -270,6 +270,32 @@
 	})
 
 
+	form.on("submit(dealAss)",function(data){
+		var index = top.layer.msg('数据提交中，请稍候',{icon: 16,time:false,shade:0.8});
+		setTimeout(function(){
+			$.ajax({
+				type: "POST",
+				async:false,
+				url: ctx+"/ass/dealAss",
+				data:$("#arf").serialize(),
+				success:function(data){
+					top.layer.close(index);
+					if(data.code!=0){
+						top.layer.msg(data.msg);
+					}else {
+						top.layer.msg("提交成功！");
+					}
+				}
+			});
+			layer.closeAll("iframe");
+			//刷新父页面
+			parent.location.reload();
+		},2000);
+		return false;
+	})
+
+
+
 	$(".search_btn").click(function() {
 		var type = $(this).data('type');
 		active[type] ? active[type].call(this) : '';

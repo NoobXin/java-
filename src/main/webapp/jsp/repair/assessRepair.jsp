@@ -13,7 +13,7 @@
 <body class="childrenBody">
 <form class="layui-form" style="width:80%;" id="arf">
     <input type="hidden" id="repairId" name="repairId" value="${info.repairId }"/>
-    <input type="hidden" id="repairStatus" name="repairId" value="${info.repairStatus }"/>
+    <br><br>
     <div class="layui-form-item">
         <label class="layui-form-label">评价</label>
         <div class="layui-input-block">
@@ -22,7 +22,7 @@
     </div>
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <button class="layui-btn" lay-submit="" lay-filter="dealMan">立即提交</button>
+            <button class="layui-btn" lay-submit="" lay-filter="dealAss">立即提交</button>
         </div>
     </div>
 </form>

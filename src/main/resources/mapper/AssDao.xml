@@ -4,15 +4,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yigang.dao.AssDao">
 
-	<resultMap type="com.yigang.entity.RepairSearch" id="Repair">
-		<id property="repairId" column="repairId" />
+	<resultMap type="com.yigang.entity.AssSearch" id="AssSearch">
+		<id property="id" column="id" />
+		<result property="repairId" column="repairId" />
 		<result property="repairManId" column="repairManId" />
-		<result property="repairStatus" column="repairStatus" />
-		<result property="roomNum" column="roomNum" />
 		<result property="createPerId" column="createPerId" />
 		<result property="createTime" column="createTime" />
-		<result property="reviewName" column="reviewName" />
+		<result property="assess" column="assess" />
 		<result property="description" column="description" />
 	</resultMap>
 
+
+	<select id="getAssList" resultMap="AssSearch" parameterType="com.yigang.entity.AssSearch">
+		select * from assess
+	</select>
+
+	<insert id="insert" parameterType="com.yigang.entity.AssSearch">
+		insert into assess (repairId,repairManId,createPerId,createTime,description,assess)
+		values(#{repairId},#{repairManId},#{createPerId},#{createTime},#{description},#{assess})
+	</insert>
+
+	<delete id="delete">
+		delete from assess
+		where id = #{id}
+	</delete>
 </mapper>
