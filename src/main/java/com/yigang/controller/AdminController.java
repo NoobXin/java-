@@ -174,7 +174,6 @@ public class AdminController {
 		if(a!=null){
 			return new ResultUtil(500, "用户名已存在,请重试！");
 		}
-        admin.setRoleId((long) 1);
 		adminService.insAdmin(admin);
 		return ResultUtil.ok();
 	}
@@ -185,9 +184,6 @@ public class AdminController {
 	@RequestMapping("/delAdminById/{id}")
 	@ResponseBody
 	public ResultUtil delAdminById(@PathVariable("id")Long id) {
-		if(id==1){
-			return ResultUtil.error();
-		}
 		try {
 			adminService.delAdminById(id);
 			return ResultUtil.ok();

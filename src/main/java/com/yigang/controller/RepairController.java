@@ -47,6 +47,11 @@ public class RepairController {
 		return "jsp/repair/waitRepairListTwo";
 	}
 
+	@RequestMapping("waitRepairListTre")
+	public String waitRepairListTre() {
+		return "jsp/repair/waitRepairListTre";
+	}
+
 	@RequestMapping("dealRepair")
 	public String dealRepair(Model model,String repairId) {
 		RepairSearch info = repairSerivce.getRepairById(repairId);
@@ -91,6 +96,20 @@ public class RepairController {
 	public ResultUtil getWaitRepairListTwo(Integer page, Integer limit, RepairSearch search) {
 		return repairSerivce.getWaitRepairListTwo(page, limit,search);
 	}
+
+	/**
+	 * 完成处理
+	 * @param page
+	 * @param limit
+	 * @param search
+	 * @return
+	 */
+	@RequestMapping("getWaitRepairListTre")
+	@ResponseBody
+	public ResultUtil getWaitRepairListTre(Integer page, Integer limit, RepairSearch search) {
+		return repairSerivce.getWaitRepairListTre(page, limit,search);
+	}
+
 	@RequestMapping("addRepair")
 	public String addRepair(){
 		return "jsp/repair/addRepair";
@@ -140,6 +159,20 @@ public class RepairController {
 		Admin admin = (Admin) session.getAttribute("admin");
 		info.setReviewName(admin.getNickname());
 		info.setRepairStatus("待分配处理");
+		repairSerivce.updateReview(info);
+		return ResultUtil.ok();
+	}
+
+	/**
+	 * 提交任务
+	 * @param repairId
+	 * @return
+	 */
+	@RequestMapping("complete")
+	@ResponseBody
+	public ResultUtil complete(String repairId,HttpSession session) {
+		RepairSearch info = repairSerivce.getRepairById(repairId);
+		info.setRepairStatus("已处理");
 		repairSerivce.updateReview(info);
 		return ResultUtil.ok();
 	}

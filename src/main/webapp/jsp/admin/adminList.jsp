@@ -16,12 +16,12 @@
 <body class="childrenBody">
 	<input type="hidden" id="adminId"
 		value="${admin.id }" />
-	<blockquote class="layui-elem-quote list_search">
-		<div class="layui-inline">
-			<a class="layui-btn layui-btn-normal adminAdd_btn"><i
-				class="layui-icon">&#xe608;</i> 添加管理员</a>
-		</div>
-	</blockquote>
+<%--	<blockquote class="layui-elem-quote list_search">--%>
+<%--		<div class="layui-inline">--%>
+<%--			<a class="layui-btn layui-btn-normal adminAdd_btn"><i--%>
+<%--				class="layui-icon">&#xe608;</i> 添加管理员</a>--%>
+<%--		</div>--%>
+<%--	</blockquote>--%>
 	<table id="adminList" lay-filter="test"></table>
 	<script type="text/javascript" src="${ctx }/layui/layui.js"></script>
 	<script type="text/javascript" src="${ctx }/js/admin/adminList.js"></script>

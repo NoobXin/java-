@@ -76,4 +76,17 @@ public class RepairSerivceImpl implements RepairSerivce {
     public void updateDealRepair(RepairSearch info) {
         repairDao.updateDealRepair(info);
     }
+
+    @Override
+    public ResultUtil getWaitRepairListTre(Integer page, Integer limit, RepairSearch search) {
+        PageHelper.startPage(page,limit);
+        search.setRepairStatus("处理中");
+        List<RepairSearch> repairInfo = repairDao.getWaitRepairList(search);
+        PageInfo<RepairSearch> pageInfo = new PageInfo<RepairSearch>(repairInfo);
+        ResultUtil resultUtil = new ResultUtil();
+        resultUtil.setCode(0);
+        resultUtil.setCount(pageInfo.getTotal());
+        resultUtil.setData(pageInfo.getList());
+        return resultUtil;
+    }
 }

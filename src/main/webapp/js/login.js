@@ -64,14 +64,11 @@
 		layer.close(index);
 	}
 	$(".userAdd_btn").click(function() {
-		var addIndex = layer.open({
-			title : "用户注册",
+		var index = layui.layer.open({
+			title : "添加用户",
 			type : 2,
-			area : [ '1000px', '500px' ],
-			content : ctx + "/user/userZc",
-			success : function(layero, index) {
-
-			}
+			content : ctx+"/admin/addAdmin",
+			area: ['450px', '570px']
 		})
 	})
 	

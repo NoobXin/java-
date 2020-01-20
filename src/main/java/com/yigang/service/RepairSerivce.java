@@ -17,4 +17,6 @@ public interface RepairSerivce {
     ResultUtil getWaitRepairListTwo(Integer page, Integer limit, RepairSearch search);
 
     void updateDealRepair(RepairSearch info);
+
+    ResultUtil getWaitRepairListTre(Integer page, Integer limit, RepairSearch search);
 }

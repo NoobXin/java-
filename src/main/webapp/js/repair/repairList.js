@@ -113,6 +113,28 @@
 		,loading:true
 		,where: {timestamp: (new Date()).valueOf()}
 	});
+
+	table.render({
+		id:'waitRepairListTre'
+		,elem: '#waitRepairListTre'
+		,url: ctx+'/repair/getWaitRepairListTre'// 数据接口
+		,limit:10// 每页默认数
+		,limits:[10,20,30,40]
+		,cols: [[ // 表头
+			{field:'repairId', title: '报修单号', align: 'center',width:110}
+			,{field:'createPerId', title: '创建人' , align: 'center',width:110}
+			,{field:'repairManId', title: '修理人' , align: 'center',width:110}
+			,{field:'repairStatus', title: '报修单状态', align: 'center' ,width:110}
+			,{field:'roomNum', title: '宿舍号' , align: 'center',width:80}
+			,{field:'reviewName', title: '审核人姓名' , align: 'center',width:110}
+			,{field:'createTime', title: '创建时间', templet : '<div>{{ formatTime(d.createTime,"yyyy-MM-dd hh:mm:ss")}}</div>',width:160, align: 'center'}
+			,{field:'description', title: '描述', align: 'center' }
+			, {field: 'right', title: '操作', align: 'center', toolbar: "#barDemo",width:150}
+		]]
+		,page: true // 开启分页
+		,loading:true
+		,where: {timestamp: (new Date()).valueOf()}
+	});
 	table.on('tool(repairList)', function (obj) {
 		var data = obj.data;
 		if (obj.event === 'edit') {
@@ -179,6 +201,32 @@
 		}
 	});
 
+	table.on('tool(waitRepairListTre)', function (obj) {
+		var data = obj.data;
+		if (obj.event === 'reviewTre') {
+			layer.confirm('确定已完成报修单号为 '+data.repairId+' 么？', function (index) {
+				$.ajax({
+					url : ctx + '/repair/complete',
+					type : "POST",
+					data: {"repairId": data.repairId},
+					success : function(d) {
+						if (d.code == 0) {
+							layer.msg("提交成功！",{icon: 1});
+							location.reload();
+						} else {
+							layer.msg("权限不足，提交失败！", {
+								icon : 5
+							});
+						}
+					},
+					error:function(){
+						layer.msg("提交失败！网络错误！",{icon: 5});
+					}
+				})
+				layer.close(index);
+			});
+		}
+	});
 	form.on("submit(dealMan)",function(data){
 		var repairStatus = $("#repairStatus").val();
 		if ("待分配处理"!=repairStatus){
