@@ -1,14 +1,19 @@
 package com.yigang.controller;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +30,7 @@ import com.yigang.service.AdminService;
 import com.yigang.utils.GsonUtil;
 import com.yigang.utils.MD5Utils;
 import com.yigang.utils.ResultUtil;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/admin")
@@ -490,5 +496,44 @@ public class AdminController {
 	public String menuList() {
 		return "jsp/menu/menuList";
 	}
-	
+
+
+	@RequestMapping(value = "/upload")
+	@ResponseBody
+	public ResultUtil upload(MultipartFile file, HttpServletRequest request){
+		List<Admin> list = new ArrayList<>();
+		//读取IO流文件
+		InputStream input = null;
+		XSSFWorkbook wb = null;
+		try {
+			input=file.getInputStream();
+			wb=new XSSFWorkbook(input);
+			//读取页
+			for(int sheetNum=0;sheetNum<wb.getNumberOfSheets();sheetNum++){
+				XSSFSheet xssfSheet = wb.getSheetAt(sheetNum);
+				if(xssfSheet==null){
+					continue;
+				}
+				//读取行
+				for(int rowNum=1;rowNum<xssfSheet.getLastRowNum()+1;rowNum++){
+					XSSFRow row= xssfSheet.getRow(rowNum);
+					if(row!=null){
+						for(int cellNum=0;cellNum<row.getLastCellNum();cellNum++){
+							XSSFCell cell = row.getCell(cellNum);//获取每一个单元格具体值，可根据需求转成任意数据类型
+							String sCell = String.valueOf(cell).substring(0, String.valueOf(cell).lastIndexOf('.'));
+							Admin admin = new Admin();
+							admin.setUsername(sCell);
+							admin.setPassword(sCell);
+							admin.setNickname(sCell);
+							admin.setRoleId((long) 11);
+							adminService.insAdmin(admin);
+						}
+					}
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return ResultUtil.ok();
+	}
 }

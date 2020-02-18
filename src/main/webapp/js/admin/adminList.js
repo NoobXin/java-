@@ -80,5 +80,26 @@ layui.config({
 			layui.layer.full(index);
 		})
 	})
+
+	layui.use('upload', function(){
+		var upload = layui.upload;
+
+		//执行实例
+		var uploadInst = upload.render({
+			elem: '#test1' //绑定元素
+			,url: ctx+'/admin/upload' //上传接口
+			,done: function(res){
+				layer.msg("提交成功！");
+				location.reload();
+			}
+			,error: function(){
+				alert("上传失败");
+			}
+			,accept:'file'//允许的文件类型
+			,auto: false//选择文件后是否自动上传
+			,bindAction:'#submit'
+
+		});
+	});
 	
 })

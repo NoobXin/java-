@@ -22,6 +22,21 @@
 <%--				class="layui-icon">&#xe608;</i> 添加管理员</a>--%>
 <%--		</div>--%>
 <%--	</blockquote>--%>
+	<div class="layui-row bd-border ">
+		<div class="layui-input-inline">
+			<label class="layui-form-label">选择文件：&nbsp;</label>
+			<div class="layui-input-inline" style="width: 150px;">
+				<button type="button" class="layui-btn" id="test1">
+					<i class="layui-icon">&#xe67c;</i>选择
+				</button>
+			</div>
+			<div class="layui-input-inline">
+				&nbsp;&nbsp;
+				<button class="layui-btn bd-btn-radius layui-btn-normal" id="submit">确定</button>
+			</div>
+		</div>
+	</div>
+
 	<table id="adminList" lay-filter="test"></table>
 	<script type="text/javascript" src="${ctx }/layui/layui.js"></script>
 	<script type="text/javascript" src="${ctx }/js/admin/adminList.js"></script>
